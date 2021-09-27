@@ -1,3 +1,18 @@
-<p>
-graficas works!
-</p>
+<div class="col-lg-4 col-md-6 mb-4">
+<div class="card">
+  <div class="card-header">
+    <tr>
+      <th scope="col">Gráfica de precios (promedio) por destino:</th>
+    </tr>
+  </div>
+  <tbody>
+    <tr *ngFor="let paq of paquetes; let i = index">
+      <p *ngIf="i > 0">
+        <td>{{ paq.nombre }}</td>
+        <td>- {{ (paq.precio_mayor + paq.precio_menor) / 2 }}</td>
+      </p>
+    </tr>
+  </tbody>
+  <div class="card-body"></div>
+</div>
+</div>

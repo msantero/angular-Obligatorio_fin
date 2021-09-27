@@ -1,3 +1,196 @@
-<p>
-dashboard works!
-</p>
+<div class="container my-4">
+<p class="font-weight-bold"></p>
+
+<p><strong>Dashboard </strong></p>
+
+<hr />
+
+<p class="font-weight-bold">Vendedor: {{ nombre_vendedor }}</p>
+
+<!--Grid row-->
+<div class="row">
+  <!--Grid column-->
+  <div class="col-lg-4 col-md-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="venderGroup" (ngSubmit)="vender()">
+          <label>Cliente:</label>
+          <input
+            type="text"
+            name="cliente"
+            id="cliente"
+            required
+            formControlName="cliente"
+          />
+          <!-- dos input de cantidad de adultos y niños -->
+
+          <label>Cant. adultos</label>
+          <input
+            type="number"
+            id="adultos"
+            name="adultos"
+            placeholder="1"
+            min="1"
+            max="10"
+            formControlName="adultos"
+          />
+          <label>Cant. niños</label>
+          <input
+            type="number"
+            id="ninos"
+            name="ninos"
+            min="1"
+            max="10"
+            formControlName="ninos"
+          />
+
+          <!--
+          <input
+            type="text"
+            id="paquete_sel"
+            name="paquete_sel"
+            formControlName="paquete_sel"
+            value="{{ paquete?.id }}"
+            type="hidden"
+            readonly
+          /><br /><br />
+          -->
+
+          <!--
+          <ul>
+            <li *ngFor="let item of seleccionados" formControlName="paquete_sel">
+              {{item.nombre}}
+            </li>
+          </ul>
+          -->
+          <!--
+          <p>
+            <label>Paquetes</label>
+            <select
+              name="paquetes"
+              [(ngModel)]="paquete"
+              [ngModelOptions]="{ standalone: true }"
+            >
+              <option [ngValue]="item" *ngFor="let item of paquetes">
+                {{ item.nombre }}
+              </option>
+            </select>
+            <label>Seleccionado: {{ paquete?.nombre }}</label>
+          </p>
+          -->
+          <p>
+            <select
+              name="paquetes"
+              [(ngModel)]="paquete.id"
+              [ngModelOptions]="{ standalone: true }"
+            >
+              <option
+                [ngValue]="item.id"
+                *ngFor="let item of paquetes"
+                [disabled]="item.id == 0"
+              >
+                {{ item.nombre }}
+              </option>
+            </select>
+            <!-- <label>Seleccionado: {{ paquete?.nombre }}</label>-->
+          </p>
+
+          <button type="submit" title="Vender Paquete" name="Vender">
+            Vender paquete
+          </button>
+          <div class="inferior" *ngIf="msg">
+            <label> {{ msg }}</label>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <!--Grid column-->
+  <div class="col-lg-4 col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <tr>
+          <th scope="col">Lista de paquetes Vendidos:</th>
+        </tr>
+      </div>
+      <div class="card-body">
+        <ul>
+          <li *ngFor="let item of Paquetes_Vendedor">
+            Cliente: {{ item.nombreCliente }} - Paquete:
+            {{ item.nombrePaquete }} - Cant. mayores:
+            {{ item.cantidad_mayores }} - Cant. menores
+            {{ item.cantidad_menores }} - Precio final:
+            {{ item.precioPaquete }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <!--Grid column-->
+  <div class="col-lg-4 col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <tr>
+          <th scope="col">Cantidad de paquetes vendidos:</th>
+        </tr>
+      </div>
+      <div class="card-body">{{ this.Paquetes_Vendedor.length }}</div>
+    </div>
+  </div>
+
+  <br />
+
+  <!--Grid column-->
+  <div class="col-lg-3 col-md-10 mb-3">
+    <table
+      class="
+        table table-striped table-dark table-bordered table-hover table-sm
+      "
+    >
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Destinos</th>
+          <th scope="col">Cant. personas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pcant of PaqueteCantPersonas">
+          <td>{{ pcant.nombre }}</td>
+          <td>{{ pcant.cantidad }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br />
+
+  <!--Grid column-->
+  <div class="col-lg-4 col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <tr>
+          <th scope="col">Gráfica de precios (promedio) por destino:</th>
+        </tr>
+      </div>
+      <tbody>
+        <tr *ngFor="let paq of paquetes; let i = index">
+          <p *ngIf="i > 0">
+            <td>{{ paq.nombre }}</td>
+            <td>- {{ (paq.precio_mayor + paq.precio_menor) / 2 }}</td>
+          </p>
+        </tr>
+      </tbody>
+      <div class="card-body"></div>
+    </div>
+  </div>
+</div>
+
+<!--Grid row-->
+<app-graficas [paquetes]="paquetes"> </app-graficas>
+</div>
